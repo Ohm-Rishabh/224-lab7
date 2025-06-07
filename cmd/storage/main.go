@@ -3,6 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
+	"net"
+
+	"tritontube/internal/proto"
+	"tritontube/internal/storage"
+
+	"google.golang.org/grpc"
 )
 
 func main() {
@@ -27,5 +34,22 @@ func main() {
 	fmt.Printf("Port: %d\n", *port)
 	fmt.Printf("Base Directory: %s\n", baseDir)
 
-	panic("Lab 8: not implemented")
+	srv, err := storage.NewStorageServer(baseDir)
+	if err != nil {
+		log.Fatalf("Failed to create storage server: %v", err)
+	}
+
+	listenAddr := fmt.Sprintf("%s:%d", *host, *port)
+	lis, err := net.Listen("tcp", listenAddr)
+	if err != nil {
+		log.Fatalf("Failed to listen: %v", err)
+	}
+
+	grpcServer := grpc.NewServer()
+	proto.RegisterVideoStorageServiceServer(grpcServer, srv)
+
+	log.Printf("Storage server listening on %s", listenAddr)
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("gRPC server error: %v", err)
+	}
 }

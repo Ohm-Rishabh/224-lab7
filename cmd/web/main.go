@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net"
+	"strings"
 	"tritontube/internal/web"
 )
 
@@ -92,7 +93,17 @@ func main() {
 		}
 	case "nw":
 		// For Lab 8 - not implemented in Lab 7
-		log.Fatalf("Unsupported content service type: %s (only 'fs' is supported in Lab 7)", contentServiceType)
+		// log.Fatalf("Unsupported content service type: %s (only 'fs' is supported in Lab 7)", contentServiceType)
+		parts := strings.Split(contentServiceOptions, ",")
+		if len(parts) < 2 {
+			log.Fatalf("invalid content options for nw: %s", contentServiceOptions)
+		}
+		adminAddr := parts[0]
+		nodeAddrs := parts[1:]
+		contentService, err = web.NewNetworkVideoContentService(adminAddr, nodeAddrs)
+		if err != nil {
+			log.Fatalf("Failed to create network content service: %v", err)
+		}
 	default:
 		log.Fatalf("Unknown content service type: %s", contentServiceType)
 	}
