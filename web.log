@@ -1,3 +1,0 @@
-Creating metadata service of type sqlite with options ./nwtest_metadata.db
-Creating content service of type nw with options localhost:8081,localhost:8090,localhost:8091
-Starting web server on localhost:8080

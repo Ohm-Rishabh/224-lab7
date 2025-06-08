@@ -1,5 +1,0 @@
-Starting storage server...
-Host: localhost
-Port: 8090
-Base Directory: ./storage/8090
-2025/06/07 15:46:23 Storage server listening on localhost:8090

@@ -1,4 +1,0 @@
-Creating metadata service of type sqlite with options ./metadata.db
-Creating content service of type fs with options ./storage
-2025/06/07 15:30:18 Error starting listener: listen tcp 127.0.0.1:8080: bind: address already in use
-exit status 1

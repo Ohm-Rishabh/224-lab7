@@ -2,7 +2,6 @@
 
 package storage
 
-// Implement a network video content service (server)
 import (
 	"context"
 	"fmt"
@@ -13,13 +12,11 @@ import (
 	"tritontube/internal/proto"
 )
 
-// StorageServer implements proto.VideoStorageServiceServer and stores files on disk.
 type StorageServer struct {
 	proto.UnimplementedVideoStorageServiceServer
 	baseDir string
 }
 
-// NewStorageServer creates a new storage server with the given base directory.
 func NewStorageServer(baseDir string) (*StorageServer, error) {
 	if err := os.MkdirAll(baseDir, 0755); err != nil {
 		return nil, fmt.Errorf("failed to create base directory: %w", err)
@@ -57,7 +54,7 @@ func (s *StorageServer) DeleteFile(ctx context.Context, req *proto.DeleteFileReq
 	if err := os.Remove(path); err != nil && !os.IsNotExist(err) {
 		return nil, err
 	}
-	// attempt remove parent dir if empty
+
 	os.Remove(filepath.Dir(path))
 	return &proto.DeleteFileResponse{}, nil
 }

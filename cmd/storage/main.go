@@ -17,7 +17,6 @@ func main() {
 	port := flag.Int("port", 8090, "Port number for the server")
 	flag.Parse()
 
-	// Validate arguments
 	if *port <= 0 {
 		panic("Error: Port number must be positive")
 	}
